@@ -5,6 +5,16 @@ const Button = (props) => {
     return <button onClick={props.next}>{props.arvo}</button>
 }
 
+
+const DisplayVotes = ({ counter }) => {
+
+    return (
+      <div>{counter}</div>
+    )
+  }
+
+
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -23,11 +33,30 @@ class App extends React.Component {
     }
 }
 
-displayVotes = () => {
-    console.log('displayVotes')
-    return () => {
-        (this.pisteet[this.selected])
+
+
+mostVotes = () => {
+
+    let maxValue = Math.max(...this.state.pisteet)
+
+    let indeksi
+
+    for(var i = 0; i < this.state.pisteet.length; i++){
+        if(this.state.pisteet[i]===maxValue){
+            indeksi = i
+        }
     }
+
+    console.log('maxValue',maxValue,' on indeksissa ',indeksi)
+    return (
+        <p><h1>Anecdote with most votes:</h1>
+        {this.props.anecdotes[indeksi]}
+        <br />
+        has {maxValue} votes
+        </p>
+    )
+
+    
 }
 
 vote = () => {
@@ -50,23 +79,23 @@ vote = () => {
     if (this.state.pisteet[this.state.selected]) {
         aanet = this.state.pisteet[this.state.selected]
     }
+    let mostVotes = this.mostVotes()
+    console.log('mostVotes, renderissa ',mostVotes)
+    console.log('aanet ',aanet)
     return (
-        
       <div>
         <br />
         {this.props.anecdotes[this.state.selected]}
         <br />
-        <div>Saatuja ääniä votes {aanet}</div>
         <br />
-        <tr>
-          <td>
+        <div>Has {aanet} votes</div>
+        <br />
+        
              <Button next={this.vote()} arvo={"Vote"} />
-          </td>
-          <td>
+          
              <Button next={this.randomNextAnecdote()} arvo={"Next anecdote"} />
-          </td>
-        </tr>
-     </div>
+        {this.mostVotes()}
+        </div>
     )
   }
 }
