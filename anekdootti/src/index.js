@@ -9,7 +9,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 0
+      selected: 0,
+      pisteet: [0, 0, 0, 0, 0, 0]
     }
   }
 
@@ -22,15 +23,49 @@ class App extends React.Component {
     }
 }
 
+displayVotes = () => {
+    console.log('displayVotes')
+    return () => {
+        (this.pisteet[this.selected])
+    }
+}
+
+vote = () => {
+    return () => {
+    const kopio = this.state.pisteet
+    console.log('kopio ',kopio)
+    kopio[this.state.selected]=kopio[this.state.selected]+1
+    console.log('vote, selected', this.state.selected)
+    console.log('vote ',kopio[this.state.selected])
+ 
+       this.setState({
+            pisteet: kopio
+       })
+    }
+  }
+
   render() {
     console.log('selected is ',this.state.selected)
+    let aanet = 0
+    if (this.state.pisteet[this.state.selected]) {
+        aanet = this.state.pisteet[this.state.selected]
+    }
     return (
+        
       <div>
         <br />
         {this.props.anecdotes[this.state.selected]}
         <br />
+        <div>Saatuja ääniä votes {aanet}</div>
         <br />
-          <Button next={this.randomNextAnecdote()} arvo={"Next anecdote"} />
+        <tr>
+          <td>
+             <Button next={this.vote()} arvo={"Vote"} />
+          </td>
+          <td>
+             <Button next={this.randomNextAnecdote()} arvo={"Next anecdote"} />
+          </td>
+        </tr>
      </div>
     )
   }
